@@ -9,31 +9,110 @@ GAME RULES:
 
 */
 
-var scores, roundScore, activePlayer, dice;
+var scores, roundScore, activePlayer, gamePlaying;
 
-scores = [0,0];
-roundScore = 0;
-activePlayer = 1;
+init();
+
+document.querySelector('.btn-roll').addEventListener('click', function(){
+if (gamePlaying){
+//1st) we need a random number
 
 // math.floor will produce an integer.
 //math.random produces a random number between 0 - 1.0
 //we simply times by 6 to give a value between 0 - 6. for example, 0.8 * 6 = 4.8. math.floor converts it into an integer which is 4. we do the + 1 at the end to ensure that we have a 1-6 value. 
-dice = Math.floor(Math.random() * 6) +1;
+    var dice = Math.floor(Math.random() * 6) +1;
 
+//2) we need to display the result.
+    var diceDOM = document.querySelector('.dice');
+    diceDOM.style.display = 'block';
+    diceDOM.src = 'dice-' + dice + '.png';
+
+//3 ) we need to update hte round score IF the rolled number was NOT a 1
+// !== does not do type coersion whereas != does do type coersion.
+    if (dice !== 1){
+    //add score
+        roundScore += dice;
+    // above formula is same as below formula.
+    // roundscore = roundscore + dice;
+        document.querySelector('#current-' + activePlayer).textContent = roundScore;
+        } else {
+            nextPlayer();
+                }
+}
+}
+);
+
+document.querySelector('.btn-hold').addEventListener('click', function(){
+    // add current score to global score
+    if (gamePlaying){
+    scores[activePlayer] += roundScore;
+
+    // update the UI
+    // the below statement updates the global score of the active player based on the above scores[activePlayer] += roundScore equation which is same as: scores[activePlayer] = scores[activePlayer] + roundScore
+    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+
+    //check if player won game
+if (scores[activePlayer] >= 20){
+        document.querySelector('#name-' + activePlayer).textContent = 'Winner';
+        document.querySelector('.dice').style.display = 'none';
+        document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+        document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+        gamePlaying = false;
+    } else {
+        nextPlayer();
+    }
+}
+
+});   
+
+function nextPlayer(){
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+    roundScore = 0;
+    document.getElementById('current-0').textContent = '0';
+    document.getElementById('current-1').textContent = '0';
+
+    //remove and add html classes
+    //document.querySelector('.player-0-panel').classList.remove('active');
+    //document.querySelector('.player-1-panel').classList.add('active');
+
+    // we toggle between active players instead of using if statements.
+    document.querySelector('.player-0-panel').classList.toggle('active');
+    document.querySelector('.player-1-panel').classList.toggle('active');
+
+    document.querySelector('.dice').style.display = 'none';
+}
+
+document.querySelector('.btn-new').addEventListener('click', init);
+
+function init (){
+        scores = [0,0];
+        roundScore = 0;
+        activePlayer = 0;
 //below is a setter because we are setthe the value of #current-0 or #current-1 in the HTML in index.html
-document.querySelector('#current-' + activePlayer).textContent = dice;
+//document.querySelector('#current-' + activePlayer).textContent = dice;
 
 //document.querySelector('#current-' + activePlayer).innerHTML = '<em>' + dice + '</em>';
 
 //below is a getter because we are getting the value of score-0 from the HTML in index.html
-var x = document.querySelector('#score-0').textContent;
-console.log(x);
+//var x = document.querySelector('#score-0').textContent;
+//console.log(x);
 
 // .style is the method and the display is the css property and the none is the attribute we assign to this property.
-document.querySelector('.dice').style.display = 'none';
+        document.querySelector('.dice').style.display = 'none';
 
+        document.getElementById('score-0').textContent = '0';
+        document.getElementById('score-1').textContent = '0';
+        document.getElementById('current-0').textContent = '0';
+        document.getElementById('current-1').textContent = '0';
 
+        document.getElementById('name-0').textContent = 'Player 1';
+        document.getElementById('name-1').textContent = 'Player 2';
 
+        document.querySelector('.player-0-panel').classList.remove('winner');
+        document.querySelector('.player-1-panel').classList.remove('winner');
+        document.querySelector('.player-0-panel').classList.remove('active');
+        document.querySelector('.player-1-panel').classList.remove('active');
 
-
-
+        document.querySelector('.player-0-panel').classList.add('active');
+        gamePlaying = true;
+}
