@@ -38,8 +38,8 @@ if (gamePlaying){
         } else {
             nextPlayer();
                 }
-}
-}
+        }
+    }
 );
 
 document.querySelector('.btn-hold').addEventListener('click', function(){
@@ -116,3 +116,17 @@ function init (){
         document.querySelector('.player-0-panel').classList.add('active');
         gamePlaying = true;
 }
+
+/**
+ * 
+ * challenge
+ * 
+ *1) a player looses his entire score when he rolls two 6 in a row. after that, its the next players turn. (HINT: always save the previous dice roll in a seperate variable)
+
+ 2) add an input field to the HTML where players can set the winnign score, so taht they can change the predefined score of 100. (HINT: you can read that value with teh .value property in Javascript. This is a good opporunity to use google to figure this out :)
+ 
+ 3) add another dice to the game, so taht there are two dices now. the player looses his current score when one of them is a 1. (Hint: you will need CSS position the second dive, so take a look at the CSS code for the first one.)
+ * 
+ */
+
+
