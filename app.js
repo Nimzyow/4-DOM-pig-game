@@ -10,7 +10,7 @@ GAME RULES:
 */
 
 var scores, roundScore, activePlayer, gamePlaying;
-var doubleSixInRow = [0,0];
+//var doubleSixInRow = [0,0];
 
 
 
@@ -23,19 +23,23 @@ if (gamePlaying){
 // math.floor will produce an integer.
 //math.random produces a random number between 0 - 1.0
 //we simply times by 6 to give a value between 0 - 6. for example, 0.8 * 6 = 4.8. math.floor converts it into an integer which is 4. we do the + 1 at the end to ensure that we have a 1-6 value. 
-    var dice = Math.floor(Math.random() * 6) +1;
-
+    var dice1 = Math.floor(Math.random() * 6) +1;
+    var dice2 = Math.floor(Math.random() * 6) +1;
 //2) we need to display the result.
+document.getElementById('dice-1').style.display = 'block';
+document.getElementById('dice-2').style.display = 'block';
     var diceDOM = document.querySelector('.dice');
-    diceDOM.style.display = 'block';
-    diceDOM.src = 'dice-' + dice + '.png';
-
+    
+    document.getElementById('dice-1').src = 'dice-' + dice1 + '.png';
+    document.getElementById('dice-1').src = 'dice-' + dice2 + '.png';
 //3 ) we need to update hte round score IF the rolled number was NOT a 1
 // !== does not do type coersion whereas != does do type coersion.
     
-    if (dice !== 1){
+    if (dice1 !== 1 && dice2 !== 1){
     //add score        
-        roundScore += dice;
+        roundScore += dice1 + dice2;
+        
+        /*
         function doubleSix(){
             if (doubleSixInRow[0] === 0 && dice === 6){
             doubleSixInRow[0] = 1;
@@ -57,7 +61,7 @@ if (gamePlaying){
         
         // above formula is same as below formula.
     // roundscore = roundscore + dice;
-        doubleSix();
+        doubleSix(); */
         document.querySelector('#current-' + activePlayer).textContent = roundScore;
         
         
@@ -65,6 +69,7 @@ if (gamePlaying){
          else {
             nextPlayer();
             console.log("Score has been reset because of 1");
+            console.log("dice 1 value is "+ dice1 + "\ndice 2 value is "+ dice2);
                 }        
     }
 }
@@ -92,7 +97,8 @@ if (input){
     //check if player won game
     if (scores[activePlayer] >= winningScore){
         document.querySelector('#name-' + activePlayer).textContent = 'winner';
-        document.querySelector('.dice').style.display = 'none';
+        document.getElementById('dice-1').style.display = 'none';
+        document.getElementById('dice-2').style.display = 'none';
         document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
         document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
         gamePlaying = false;
@@ -117,12 +123,13 @@ function nextPlayer(){
     document.querySelector('.player-0-panel').classList.toggle('active');
     document.querySelector('.player-1-panel').classList.toggle('active');
 
-    document.querySelector('.dice').style.display = 'none';
+    document.getElementById('dice-1').style.display = 'none';
+    document.getElementById('dice-2').style.display = 'none';
 
-    doubleSixInRow[0] = 0;
-    doubleSixInRow[1] = 0;
+   // doubleSixInRow[0] = 0;
+    // doubleSixInRow[1] = 0;
 
-    console.log("NEXT PLAYER" + " First double six is " + doubleSixInRow[0] + "  second double six is "+ doubleSixInRow[1]);
+   // console.log("NEXT PLAYER" + " First double six is " + doubleSixInRow[0] + "  second double six is "+ doubleSixInRow[1]);
     
 }
 
@@ -142,7 +149,8 @@ function init (){
 //console.log(x);
 
 // .style is the method and the display is the css property and the none is the attribute we assign to this property.
-        document.querySelector('.dice').style.display = 'none';
+document.getElementById('dice-1').style.display = 'none';
+document.getElementById('dice-2').style.display = 'none';
 
         document.getElementById('score-0').textContent = '0';
         document.getElementById('score-1').textContent = '0';
@@ -159,8 +167,8 @@ function init (){
 
         document.querySelector('.player-0-panel').classList.add('active');
         
-        doubleSixInRow[0] = 0;
-        doubleSixInRow[1] = 0;
+      //  doubleSixInRow[0] = 0;
+    // doubleSixInRow[1] = 0;
 
         gamePlaying = true;
 }
