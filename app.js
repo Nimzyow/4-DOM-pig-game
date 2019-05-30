@@ -10,6 +10,7 @@ GAME RULES:
 */
 
 var scores, roundScore, activePlayer, gamePlaying;
+var doubleSixInRow = [0,0];
 
 init();
 
@@ -30,27 +31,51 @@ if (gamePlaying){
 //3 ) we need to update hte round score IF the rolled number was NOT a 1
 // !== does not do type coersion whereas != does do type coersion.
     
-   
     if (dice !== 1){
-    //add score
-        if (dice === 6 ){
-            doubleSix += 1;
-            ADoubleSix = doubleSix;
-        }
-        console.log(ADoubleSix);
+    //add score        
         roundScore += dice;
-    
-    // above formula is same as below formula.
+        
+        function doubleSix(){
+          if (doubleSixInRow[0] === 0 && dice === 6){
+            doubleSixInRow[0] = 1;
+            console.log("First 6");
+        }       
+                else if (doubleSixInRow[0] === 1 && dice !== 6){
+                    resetFDsix();
+                    function resetFDsix(){
+                        doubleSixInRow[0] = 0;
+                        console.log("6 has been reset");
+                        console.log("First double six is " + doubleSixInRow[0] + "  second double six is "+ doubleSixInRow[1]);
+                    }
+                    
+                }               
+                        else if (doubleSixInRow[0] === 1 && doubleSixInRow[1] === 0 && dice === 6){
+                            doubleSixInRow[1] = 1;
+                            console.log("DOUBLE 6");
+                            console.log("First double six is " + doubleSixInRow[0] + "  second double six is "+ doubleSixInRow[1]);
+                            doubleSixReached();
+                                function doubleSixReached(){
+                                    scores[activePlayer] = 0;
+                                    document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
+                                    console.log("Global Score for " + activePlayer + " has been reset because of double 6");
+                                    nextPlayer();       
+                                }
+                        }  
+        }
+        
+        // above formula is same as below formula.
     // roundscore = roundscore + dice;
+        doubleSix();
         document.querySelector('#current-' + activePlayer).textContent = roundScore;
+        
+        
     }
          else {
             nextPlayer();
             console.log("Score has been reset because of 1");
-                }
-                
-        }
+                }        
     }
+}
 );
 
 document.querySelector('.btn-hold').addEventListener('click', function(){
@@ -91,6 +116,12 @@ function nextPlayer(){
     document.querySelector('.player-1-panel').classList.toggle('active');
 
     document.querySelector('.dice').style.display = 'none';
+
+    doubleSixInRow[0] = 0;
+    doubleSixInRow[1] = 0;
+
+    console.log("NEXT PLAYER" + " First double six is " + doubleSixInRow[0] + "  second double six is "+ doubleSixInRow[1]);
+    
 }
 
 document.querySelector('.btn-new').addEventListener('click', init);
@@ -125,6 +156,10 @@ function init (){
         document.querySelector('.player-1-panel').classList.remove('active');
 
         document.querySelector('.player-0-panel').classList.add('active');
+        
+        doubleSixInRow[0] = 0;
+        doubleSixInRow[1] = 0;
+
         gamePlaying = true;
 }
 
