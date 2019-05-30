@@ -36,31 +36,22 @@ if (gamePlaying){
         roundScore += dice;
         
         function doubleSix(){
-          if (doubleSixInRow[0] === 0 && dice === 6){
+            if (doubleSixInRow[0] === 0 && dice === 6){
             doubleSixInRow[0] = 1;
             console.log("First 6");
-        }       
-                else if (doubleSixInRow[0] === 1 && dice !== 6){
-                    resetFDsix();
-                    function resetFDsix(){
-                        doubleSixInRow[0] = 0;
-                        console.log("6 has been reset");
-                        console.log("First double six is " + doubleSixInRow[0] + "  second double six is "+ doubleSixInRow[1]);
-                    }
-                    
-                }               
-                        else if (doubleSixInRow[0] === 1 && doubleSixInRow[1] === 0 && dice === 6){
-                            doubleSixInRow[1] = 1;
-                            console.log("DOUBLE 6");
-                            console.log("First double six is " + doubleSixInRow[0] + "  second double six is "+ doubleSixInRow[1]);
-                            doubleSixReached();
-                                function doubleSixReached(){
-                                    scores[activePlayer] = 0;
-                                    document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
-                                    console.log("Global Score for " + activePlayer + " has been reset because of double 6");
-                                    nextPlayer();       
-                                }
-                        }  
+            }else if (doubleSixInRow[0] === 1 && dice !== 6){
+                    doubleSixInRow[0] = 0;
+                    console.log("6 has been reset");
+                    console.log("First double six is " + doubleSixInRow[0] + "  second double six is "+ doubleSixInRow[1]);    
+            }else if (doubleSixInRow[0] === 1 && doubleSixInRow[1] === 0 && dice === 6){
+                    doubleSixInRow[1] = 1;
+                    console.log("DOUBLE 6 IN A ROW");
+                    console.log("First double six is " + doubleSixInRow[0] + "  second double six is "+ doubleSixInRow[1]);
+                    scores[activePlayer] = 0;
+                    document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
+                    console.log("Global Score for " + activePlayer + " has been reset because of double 6");
+                    nextPlayer();       
+            }  
         }
         
         // above formula is same as below formula.
