@@ -29,15 +29,26 @@ if (gamePlaying){
 
 //3 ) we need to update hte round score IF the rolled number was NOT a 1
 // !== does not do type coersion whereas != does do type coersion.
+    
+   
     if (dice !== 1){
     //add score
+        if (dice === 6 ){
+            doubleSix += 1;
+            ADoubleSix = doubleSix;
+        }
+        console.log(ADoubleSix);
         roundScore += dice;
+    
     // above formula is same as below formula.
     // roundscore = roundscore + dice;
         document.querySelector('#current-' + activePlayer).textContent = roundScore;
-        } else {
+    }
+         else {
             nextPlayer();
+            console.log("Score has been reset because of 1");
                 }
+                
         }
     }
 );
@@ -52,7 +63,7 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
     document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
 
     //check if player won game
-if (scores[activePlayer] >= 20){
+if (scores[activePlayer] >= 100){
         document.querySelector('#name-' + activePlayer).textContent = 'Winner';
         document.querySelector('.dice').style.display = 'none';
         document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
