@@ -12,6 +12,8 @@ GAME RULES:
 var scores, roundScore, activePlayer, gamePlaying;
 var doubleSixInRow = [0,0];
 
+
+
 init();
 
 document.querySelector('.btn-roll').addEventListener('click', function(){
@@ -34,7 +36,6 @@ if (gamePlaying){
     if (dice !== 1){
     //add score        
         roundScore += dice;
-        
         function doubleSix(){
             if (doubleSixInRow[0] === 0 && dice === 6){
             doubleSixInRow[0] = 1;
@@ -51,7 +52,7 @@ if (gamePlaying){
                     document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
                     console.log("Global Score for " + activePlayer + " has been reset because of double 6");
                     nextPlayer();       
-            }  
+            }
         }
         
         // above formula is same as below formula.
@@ -78,8 +79,18 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
     // the below statement updates the global score of the active player based on the above scores[activePlayer] += roundScore equation which is same as: scores[activePlayer] = scores[activePlayer] + roundScore
     document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
 
+    var input = document.querySelector('.final-score').value;
+        var winningScore
+    // undefined, 0, null or "" are COERCED to false
+    // anything else is COERCED to true
+if (input){
+    winningScore = input;
+} else {
+    winningScore = 100;
+}
+
     //check if player won game
-if (scores[activePlayer] >= 100){
+    if (scores[activePlayer] >= winningScore){
         document.querySelector('#name-' + activePlayer).textContent = 'Winner';
         document.querySelector('.dice').style.display = 'none';
         document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
